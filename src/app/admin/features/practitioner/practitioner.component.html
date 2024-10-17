@@ -1,0 +1,68 @@
+<div class="form-container">
+  <form  class="create-form" [formGroup]="createForm" (ngSubmit)="onSubmit($event)">
+    <!-- Lastname -->
+    <mat-form-field class="field-full">
+      <mat-label>Lastname</mat-label>
+      <input matInput formControlName="lastname" />
+      @if (isValidField('lastname')) {
+        <mat-error>This field is invalid</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Firstname -->
+    <mat-form-field class="field-full">
+      <mat-label>Firstname</mat-label>
+      <input matInput formControlName="firstname" />
+      @if (isValidField('firstname')) {
+        <mat-error>This field is invalid</mat-error>
+      }
+    </mat-form-field>
+
+    <!--  email-->
+    <mat-form-field  class="field-full">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      @if (isValidField('email')) {
+        <mat-error>This field is invalid</mat-error>
+      }
+    </mat-form-field>
+
+    <editor formControlName="description" [init]="init"  apiKey="7sr59pwq3djoa6wb74q96qgfxdpy89nb92irbmleo0l5wjg1"></editor>
+
+    <!--  Active -->
+    <mat-checkbox formControlName="active">Active?</mat-checkbox>
+
+    <div formGroupName="office">
+      <mat-form-field class="field-full">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field class="field-full">
+        <mat-label>Street</mat-label>
+        <input matInput formControlName="street" />
+      </mat-form-field>
+      <mat-form-field class="field-full">
+        <mat-label>city</mat-label>
+        <input matInput formControlName="city" />
+      </mat-form-field>
+      <mat-form-field class="field-full">
+        <mat-label>city</mat-label>
+        <input matInput formControlName="city" />
+      </mat-form-field>
+      <mat-form-field class="field-full">
+        <mat-label>ZipCode</mat-label>
+        <input matInput formControlName="zipcode" />
+      </mat-form-field>
+
+    </div>
+
+    <div class="group-button">
+      <button (reset)="createForm.reset()" mat-flat-button color="warn">Reset</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="createForm.invalid" >Create</button>
+    </div>
+
+
+  </form>
+</div>
+
+
