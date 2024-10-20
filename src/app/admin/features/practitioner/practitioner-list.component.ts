@@ -9,6 +9,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
 import {Router, RouterLink} from "@angular/router";
 import {MatIcon} from "@angular/material/icon";
+import {ListComponent} from "../page/list/list.component";
 
 @Component({
   selector: 'app-practitioner',
@@ -22,42 +23,48 @@ import {MatIcon} from "@angular/material/icon";
     MatInputModule,
     MatTableModule, MatPaginator, MatButton, MatAnchor, RouterLink, MatIconButton, MatIcon
   ],
-  templateUrl: './practitioner-list.component.html',
+  templateUrl: '../page/list/list.component.html',
   styleUrl: './practitioner-list.component.scss'
 })
 
-export class PractitionerListComponent implements AfterViewInit {
-  displayedColumns: string[] = ['id', 'lastname', 'firstname', 'email', 'active', 'action'];
-  dataSource: MatTableDataSource<IPractitioner> = new MatTableDataSource();
-  practitionerService = inject(PractitionerService);
-  @Input() linkDetail: any;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
+export class PractitionerListComponent extends ListComponent {
+  override displayedColumns: string[] = ['id', 'lastname', 'firstname', 'email', 'active', 'action'];
+  private _practitionerService = inject(PractitionerService);
 
   constructor(private route: Router) {
-    this.practitionerService.getAll().subscribe({
-      next: res => this.dataSource.data = res,
+    super()
+    this._practitionerService.getAll().subscribe({
+      next: (practitioner: Practitioner[]) => this.dataSource.data = practitioner,
       error: err => console.log(err)
     })
   }
 
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  override onEdit(id: number) {
+    this.route.navigate(['admin', 'practitioners', 'edit', id]).then();
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  override onRemove(id: number) {
+    this._dialog.confirm({
+      title: "Confirm delete",
+      content: "Are you sure to delete this practitioner"
+    }).subscribe({
+      next: (confirm: boolean) => {
+
+        if (confirm) {
+
+          this._practitionerService.delete(id).subscribe({
+            next: () => {
+              this._snackBar.open({content: "Practitioner was successfully deleted"})
+              this.route.navigate(['admin', 'practitioners']).then();
+            }
+          })
+        }
+
+      }
+    })
   }
 
-  onEditingPractitioner(practitioner: Practitioner) {
-    this.route.navigate(['admin', 'practitioners', 'edit', practitioner.id]).then();
-  }
-
-  onRemovingPractitioner(practitioner: Practitioner){
-
+  override onCreate() {
+    this.route.navigate(['admin', 'practitioners', 'new']).then();
   }
 }

@@ -44,7 +44,7 @@ export class PractitionerService implements CrudPractitioner {
   }
 
   getOne(id: number): Observable<IPractitioner> {
-    return this.http.get<GetPractitionerResponse>(this.BASE_URL + '/' + id + '/profile').pipe(
+    return this.http.get<GetPractitionerResponse>(this.BASE_URL + '/' + id ).pipe(
       map((response: GetPractitionerResponse) => {
         return response.practitioner;
       })

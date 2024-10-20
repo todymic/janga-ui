@@ -12,6 +12,7 @@ export interface Practitioner {
   degrees?: string;
   languages?: Language[] | null;
   specialities?: Speciality[] | null;
+  officeId: number
   office: Office
 
 }

@@ -1,10 +1,10 @@
 <div class="form-container">
-  <form  class="create-form" [formGroup]="createForm" (ngSubmit)="onSubmit($event)">
+  <form class="create-form" [formGroup]="formService.formGroup" (ngSubmit)="onSubmit($event)">
     <!-- Lastname -->
     <mat-form-field class="field-full">
       <mat-label>Lastname</mat-label>
-      <input matInput formControlName="lastname" />
-      @if (isValidField('lastname')) {
+      <input matInput formControlName="lastname"/>
+      @if (formService.isValidField('lastname')) {
         <mat-error>This field is invalid</mat-error>
       }
     </mat-form-field>
@@ -12,53 +12,73 @@
     <!-- Firstname -->
     <mat-form-field class="field-full">
       <mat-label>Firstname</mat-label>
-      <input matInput formControlName="firstname" />
-      @if (isValidField('firstname')) {
+      <input matInput formControlName="firstname"/>
+      @if (formService.isValidField('firstname')) {
         <mat-error>This field is invalid</mat-error>
       }
     </mat-form-field>
 
     <!--  email-->
-    <mat-form-field  class="field-full">
+    <mat-form-field class="field-full">
       <mat-label>Email</mat-label>
-      <input matInput formControlName="email" />
-      @if (isValidField('email')) {
+      <input matInput formControlName="email"/>
+      @if (formService.isValidField('email')) {
         <mat-error>This field is invalid</mat-error>
       }
     </mat-form-field>
 
-    <editor formControlName="description" [init]="init"  apiKey="7sr59pwq3djoa6wb74q96qgfxdpy89nb92irbmleo0l5wjg1"></editor>
+    <editor formControlName="description" [init]="init"
+            apiKey="7sr59pwq3djoa6wb74q96qgfxdpy89nb92irbmleo0l5wjg1"></editor>
 
     <!--  Active -->
     <mat-checkbox formControlName="active">Active?</mat-checkbox>
 
-    <div formGroupName="office">
-      <mat-form-field class="field-full">
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" />
-      </mat-form-field>
-      <mat-form-field class="field-full">
-        <mat-label>Street</mat-label>
-        <input matInput formControlName="street" />
-      </mat-form-field>
-      <mat-form-field class="field-full">
-        <mat-label>city</mat-label>
-        <input matInput formControlName="city" />
-      </mat-form-field>
-      <mat-form-field class="field-full">
-        <mat-label>city</mat-label>
-        <input matInput formControlName="city" />
-      </mat-form-field>
-      <mat-form-field class="field-full">
-        <mat-label>ZipCode</mat-label>
-        <input matInput formControlName="zipcode" />
-      </mat-form-field>
+    <h4>Office</h4>
+    <mat-form-field>
+      <mat-label>Office</mat-label>
+      <mat-select formControlName="officeId" [(value)]="selectedOffice">
 
-    </div>
+        @for (office of offices; track office) {
+          <mat-option [value]="office.id">{{ office.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+
+    <h4>Languages</h4>
+    <mat-form-field>
+      <mat-label>Language</mat-label>
+      <mat-select formControlName="languages" multiple [(value)]="selectedLanguages">
+        @for (language of languages; track language) {
+          <mat-option [value]="language.id">{{ language.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <h4>Specialities</h4>
+    <mat-form-field>
+      <mat-label>Speciality</mat-label>
+      <mat-select formControlName="specialities" multiple [(value)]="selectedSpecialities">
+        @for (speciality of specialities; track speciality) {
+          <mat-option [value]="speciality.id">{{ speciality.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
 
     <div class="group-button">
-      <button (reset)="createForm.reset()" mat-flat-button color="warn">Reset</button>
-      <button mat-flat-button color="primary" type="submit" [disabled]="createForm.invalid" >Create</button>
+      @if (isEditContext) {
+        <button (click)="onRemove()" mat-flat-button type="button" color="warn">Remove</button>
+      }
+
+      <button (click)="onReset()" mat-stroked-button type="button" class="">Cancel</button>
+      <button mat-flat-button type="submit" color="primary" [disabled]="!formService.formGroup.valid">
+        @if (isEditContext) {
+          Edit
+        } @else {
+          Create
+        }
+      </button>
+
     </div>
 
 

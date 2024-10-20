@@ -1,1 +1,53 @@
-<p>office works!</p>
+<form class="create-form" [formGroup]="formService.formGroup" (ngSubmit)="onSubmit($event)">
+  <mat-form-field class="field-full">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name"/>
+    @if(formService.isValidField('name')) {
+      <mat-error>This field is invalid</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="field-full">
+    <mat-label>Street</mat-label>
+    <input matInput formControlName="street"/>
+    @if(formService.isValidField('street')) {
+      <mat-error>This field is invalid</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="field-full">
+    <mat-label>city</mat-label>
+    <input matInput formControlName="city"/>
+    @if(formService.isValidField('city')) {
+      <mat-error>This field is invalid</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="field-full">
+    <mat-label>ZipCode</mat-label>
+    <input matInput formControlName="zipcode"/>
+    @if(formService.isValidField('zipcode')) {
+      <mat-error>This field is invalid</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="field-full">
+    <mat-label>Country</mat-label>
+    <input matInput formControlName="country"/>
+    @if(formService.isValidField('country')) {
+      <mat-error>This field is invalid</mat-error>
+    }
+  </mat-form-field>
+
+  <div class="group-button">
+    @if(isEditContext) {
+      <button (click)="onRemove()" mat-flat-button type="button" color="warn">Remove</button>
+    }
+
+    <button (click)="onReset()" mat-stroked-button type="button" class="">Cancel</button>
+    <button mat-flat-button type="submit" color="primary" [disabled]="!formService.formGroup.valid">
+      @if(isEditContext) {
+        Edit
+      } @else {
+        Create
+      }
+    </button>
+
+  </div>
+</form>

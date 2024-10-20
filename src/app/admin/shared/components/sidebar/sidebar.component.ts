@@ -5,9 +5,6 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {FormsModule} from "@angular/forms";
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {MatListModule} from '@angular/material/list';
-import {PractitionerService} from "../../../core/services/practitioner.service";
-import {Practitioner as IPractitioner} from "../../../core/interfaces/practitioner.interface";
-import {Practitioner} from "../../../core/models/practitioner.model";
 
 @Component({
   selector: 'app-sidebar',
