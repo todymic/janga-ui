@@ -1,0 +1,31 @@
+<section>
+  <div class="boxlist">
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Recent new practitioners</mat-card-title>
+        <button mat-flat-button color="primary" (click)="createPractitioner()">Create</button>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          @for (practitioner of practitioners; track practitioner.id){
+            <mat-list-item>{{ practitioner.firstname }}</mat-list-item>
+          }
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Recent new office</mat-card-title>
+        <button mat-flat-button color="primary" (click)="createOffice()">Create</button>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          @for (office of offices; track office.id){
+            <mat-list-item>{{ office.name }}</mat-list-item>
+          }
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>
