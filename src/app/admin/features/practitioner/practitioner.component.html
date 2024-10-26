@@ -27,6 +27,15 @@
       }
     </mat-form-field>
 
+    <mat-form-field class="field-full">
+      <mat-label>Password</mat-label>
+      <input matInput [type]="hide? 'password': 'text'" formControlName="password"/>
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      @if (formService.isValidField('password')) {
+        <mat-error>This field is invalid</mat-error>
+      }
+    </mat-form-field>
+
     <editor formControlName="description" [init]="init"
             apiKey="7sr59pwq3djoa6wb74q96qgfxdpy89nb92irbmleo0l5wjg1"></editor>
 

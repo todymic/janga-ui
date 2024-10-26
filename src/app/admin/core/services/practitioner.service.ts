@@ -27,9 +27,6 @@ export class PractitionerService implements CrudPractitioner {
 
   private _data: Subject<IPractitioner[]> = new Subject<IPractitioner[]>();
 
-  constructor() {
-  }
-
   public get data(): Observable<IPractitioner[]> {
    return this._data.asObservable();
   }

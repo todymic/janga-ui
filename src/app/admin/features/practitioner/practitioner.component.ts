@@ -57,6 +57,7 @@ export class PractitionerComponent extends SingleComponent implements OnInit, On
   offices!: Office[];
   languages!: Language[];
   specialities!: Speciality[];
+  hide: boolean = true;
 
   init: EditorComponent['init'] = {
     plugins: 'lists link image table code help wordcount'
@@ -70,6 +71,7 @@ export class PractitionerComponent extends SingleComponent implements OnInit, On
     this.formService.formGroup = this.formService.formBuilder.group({
       firstname: ['', [Validators.required]],
       lastname: ['', [Validators.required]],
+      password: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       description: [''],
       active: [''],
