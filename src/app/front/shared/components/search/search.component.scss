@@ -1,0 +1,18 @@
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+.search .form-search {
+
+  display: flex;
+  gap: 15px;
+  flex-direction: row;
+  width: 82vw;
+
+  mat-form-field{
+    width: 100%;
+  }
+}

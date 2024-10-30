@@ -1,0 +1,38 @@
+<div class="search m-auto">
+  <img src="assets/uniform-healthcare.jpg" class="position-absolute w-100 h-50">
+  <form class="form-search row justify-content-center align-content-center" [formGroup]="searchGroup" (ngSubmit)="onSubmit($event)">
+    <mat-form-field class="searchPractitioner col" appearance="fill">
+      <mat-label>Practitioner or office</mat-label>
+      <input matInput formControlName="searchPractitioner" [matAutocomplete]="practitionerField">
+      <mat-autocomplete #practitionerField="matAutocomplete" [displayWith]="displayPractitionerFn">
+        @for (practitioner of filteredPractitionerOptions | async; track practitioner) {
+          <mat-option [value]="practitioner">{{ practitioner.name }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field class="field-full col" appearance="fill">
+      <mat-label>Speciality</mat-label>
+      <input matInput formControlName="searchSpeciality" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displaySpecialityFn">
+        @for (speciality of filteredSpecialityOptions | async; track speciality.id) {
+          <mat-option [value]="speciality">{{ speciality.name }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class="submit-btn col">
+      <button mat-raised-button type="submit" >
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+
+
+
+

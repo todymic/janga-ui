@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Practitioner, Practitioner as IPractitioner} from "../interfaces/practitioner.interface";
+import {Practitioner as IPractitioner} from "../interfaces/practitioner.interface";
 import {map, tap, Observable, Subject} from "rxjs";
 import {
   GetPractitionerResponse,
