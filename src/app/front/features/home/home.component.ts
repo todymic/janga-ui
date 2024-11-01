@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {HeaderComponent} from "../../shared/components/header/header.component";
-import {SearchComponent} from "../../shared/components/search/search.component";
+import {HeaderComponent} from "@shared/components/header/header.component";
+import {SearchComponent} from "@shared/components/search/search.component";
 
 @Component({
   selector: 'app-home',
