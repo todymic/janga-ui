@@ -1,11 +1,24 @@
-<header class="header">
+<header class="header z-1 position-relative">
   <div class="logo">
     <img src="assets/preview.jpg" alt="Logo">
-    <span>Healthcare Portal</span>
+    <span><a routerLink="/" > JANGA </a></span>
   </div>
-  <nav class="nav-links">
-    <a mat-stroked-button routerLink="/home" routerLinkActive="active">Are you a practitioner</a>
-    <a routerLink="/login" routerLinkActive="active">Log in</a>
+  <nav class="nav">
+    <a mat-stroked-button routerLink="/" >Are you a practitioner</a>
+
+    @if(showLoginLink()) {
+      <a class="nav-item" routerLink="/auth/login" >Log in</a>
+    } @else {
+      <li class="nav-item dropdown mx-2 align-content-center">
+        <a class="dropdown-toggle"  role="button"  data-bs-toggle="dropdown" aria-expanded="false">Test</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" href="#">Practitioners</a></li>
+          <li><a class="dropdown-item" href="#">Appointments</a></li>
+          <li><a class="dropdown-item" (click)="logout()" >Logout</a></li>
+        </ul>
+      </li>
+    }
   </nav>
 </header>
 

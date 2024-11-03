@@ -1,59 +1,83 @@
-import {computed, inject, Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {computed, inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {retry, tap} from "rxjs";
+import {Observable, tap} from "rxjs";
 import {AuthResponse} from "@core/services/interface/auth-response";
-import {Model} from "@core/models/interface/model.interface";
 import {AuthRequest} from "@core/services/interface/auth-request";
 import {Patient} from "@core/models/patient";
 import {LoginRequest} from "@core/services/interface/login-request";
 import {environment} from "@environment/environment";
 import {PractitionerRegisterRequest} from "@core/services/interface/practitioner-register-request";
+import {Auth} from "@core/services/interface/auth";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService  {
+export class AuthService implements Auth {
 
   private _http: HttpClient = inject(HttpClient);
-  protected _patientSign = signal<Patient | null>(null);
-  private _token = signal<string | null>(null);
-  currentPatient = this._patientSign.asReadonly();
-  isAuthenticated = computed(() => this.currentPatient() !== null);
-  isTokenValid = computed(() => this._token() !== null);
+  private _router: Router = inject(Router);
 
-  sessionToken: Signal<string|null> = computed((): string|null => {
-    if(this.isTokenValid()) {
-      localStorage.setItem('token', <string>this._token());
-      return this._token();
-    } else {
-      if (localStorage.getItem('token')) {
-        localStorage.removeItem('token');
+  protected _patient = signal<Patient | null>(null);
+  private _token = signal<string | null>(null);
+
+  isAuthenticated = computed(() => {
+    this._patient();
+    return !!this.sessionData('patient');
+  });
+
+  sessionHandler(token: string, patient: Patient) {
+    if(typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('patient', JSON.stringify(patient));
+    }
+  }
+  removeSession() {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('patient');
+  }
+
+  sessionData(name: string): string | null {
+    if(typeof sessionStorage !== 'undefined') {
+
+      const sessionItem: string =  sessionStorage.getItem(name) as string;
+
+      if(sessionItem) {
+        return name === 'token' ? sessionItem: JSON.parse(sessionItem);
       }
     }
 
     return null;
-  });
+  }
 
-  login(data: LoginRequest) {
+  login(data: LoginRequest): Observable<AuthResponse> {
     const url = environment.apiUrl + 'patients/login';
-    this.sendAuthRequest(url, data);
+    return this.sendAuthRequest(url, data);
   }
 
-  register(data: PractitionerRegisterRequest): void {
+  register(data: PractitionerRegisterRequest): Observable<AuthResponse> {
     const url = environment.apiUrl + 'patients/register';
+    return this.sendAuthRequest(url, data);
   }
 
 
-  logout(): void {
+  logout() {
+    this.removeSession();
+
     this._token.set(null);
+    this._patient.set(null);
+
+    this._router.navigate(['/']).then();
   }
 
 
-  protected sendAuthRequest(url: string, data: AuthRequest) {
-    this._http.post<AuthResponse>(url, data).pipe(
+  protected sendAuthRequest(url: string, data: AuthRequest): Observable<AuthResponse> {
+    return this._http.post<AuthResponse>(url, data).pipe(
       tap((response) => {
-        this._patientSign.set(response.user);
+        this._patient.set(response.user);
         this._token.set(response.token);
+
+        this.sessionHandler(response.token, response.user);
       })
     )
   }

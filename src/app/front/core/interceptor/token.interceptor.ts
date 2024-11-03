@@ -4,13 +4,14 @@ import {AuthService} from "@core/services/auth.service";
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
+  const token = authService.sessionData('token');
 
-  if(!authService.isTokenValid()) {
+  if(!token) {
     return next(req);
   }
 
   const headers = new HttpHeaders({
-    Authorization: `Bearer ${authService.sessionToken()}`
+    Authorization: `Bearer ${token}`
   })
 
   const newReq = req.clone({

@@ -1,16 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed, effect,
-  inject,
-  OnInit,
-  Signal,
-  signal
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, OnInit, Signal, signal} from '@angular/core';
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
 import {MatIcon, MatIconModule} from "@angular/material/icon";
-import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {BaseFormService} from "../../../../admin/core/services/base-form.service";
@@ -21,6 +13,7 @@ import {AsyncPipe} from "@angular/common";
 import {Control} from "@core/utilities/type";
 import {Search} from '@core/models';
 import {SearchPractitionerResponse, SearchResponse, SearchSpecialityResponse} from "@core/utilities/search-response";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-search',
@@ -52,9 +45,11 @@ export class SearchComponent implements OnInit {
   protected formService: BaseFormService = inject(BaseFormService);
   protected searchService: SearchService = inject(SearchService);
 
+  specialities = signal<SearchSpecialityResponse[]>([]);
+  filteredSpecialityOptions = computed(() => this.specialities());
+
   searchGroup!: FormGroup<Control<Search>>;
   searchSpecialityOptions: SearchSpecialityResponse[] = [];
-  filteredSpecialityOptions!: Observable<SearchResponse[] >;
   filteredPractitionerOptions!: Observable<SearchResponse[]>;
   practitionerOrOffice: Subject<string> = new Subject();
 
@@ -68,7 +63,7 @@ export class SearchComponent implements OnInit {
     // get all Specialities
     this.searchService.findAvailableSpecialities()
       .subscribe((specialities: SearchSpecialityResponse[]) => {
-        this.searchSpecialityOptions = specialities;
+        this.specialities.set(specialities);
       })
 
     // options filtered form API
@@ -85,19 +80,22 @@ export class SearchComponent implements OnInit {
 
 
     //on change speciality
-    this.filteredSpecialityOptions = this.searchGroup.controls.searchSpeciality.valueChanges.pipe(
-      startWith(''),
-      map((value: any): SearchSpecialityResponse[] => {
-        const name = typeof value === 'string' ? value : value?.name;
-        return name ? this._filterSpecialityOptions(value) : this.searchSpecialityOptions.slice();
-      })
-    );
+    this.searchGroup.controls.searchSpeciality.valueChanges.pipe(
+        startWith(''),
+        map((value: any) => {
+          const name = typeof value === 'string' ? value : value?.name;
 
+          const filteredOptions =  name ? this._filterSpecialityOptions(value) : this.specialities().slice();
 
+          this.specialities.set(filteredOptions);
+
+        })
+      ).subscribe()
   }
 
 
   onSubmit($event: any) {
+
   }
 
   displaySpecialityFn(speciality: SearchSpecialityResponse) {
@@ -110,6 +108,6 @@ export class SearchComponent implements OnInit {
 
   private _filterSpecialityOptions(value: any): SearchSpecialityResponse[] {
     const name: string = value.toLowerCase();
-    return this.searchSpecialityOptions.filter((option: any) => option.name.toLowerCase().includes(name));
+    return this.specialities().filter((option: any) => option.name.toLowerCase().includes(name));
   }
 }

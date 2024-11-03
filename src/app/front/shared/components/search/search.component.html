@@ -14,7 +14,7 @@
       <mat-label>Speciality</mat-label>
       <input matInput formControlName="searchSpeciality" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displaySpecialityFn">
-        @for (speciality of filteredSpecialityOptions | async; track speciality.id) {
+        @for (speciality of filteredSpecialityOptions(); track speciality.id) {
           <mat-option [value]="speciality">{{ speciality.name }}</mat-option>
         }
       </mat-autocomplete>
