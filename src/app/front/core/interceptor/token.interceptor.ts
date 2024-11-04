@@ -1,9 +1,9 @@
 import {HttpHeaders, HttpInterceptorFn} from '@angular/common/http';
 import {inject} from "@angular/core";
-import {AuthService} from "@core/services/auth.service";
+import {PatientAuthService} from "@core/services/patient-auth.service";
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
+  const authService = inject(PatientAuthService);
   const token = authService.sessionData('token');
 
   if(!token) {

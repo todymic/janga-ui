@@ -21,7 +21,7 @@ import {Speciality} from "../../core/interfaces/speciality.interface";
   templateUrl: './speciality.component.html',
   styleUrl: './speciality.component.scss'
 })
-export class SpecialityComponent extends SingleComponent implements OnInit {
+export class SpecialityComponent extends SingleComponent<Speciality> implements OnInit {
 
   private _specialityService: SpecialityService = inject(SpecialityService);
 
@@ -51,7 +51,7 @@ export class SpecialityComponent extends SingleComponent implements OnInit {
   }
 
   onSubmit($event: Event) {
-    const speciality = this.singleFormGroup.value;
+    const speciality = this.singleFormGroup.value as Speciality;
 
     if (this.isEditContext) {
 

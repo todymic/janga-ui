@@ -3,6 +3,10 @@ import {BaseFormService} from "../../../core/services/base-form.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormGroup} from "@angular/forms";
 import {SinglePageInterface} from "../../../core/interfaces/single_page.interface";
+import {Practitioner} from "@admin/core/interfaces/practitioner.interface";
+import {Control} from "@core/utilities/type";
+import {Login} from "@core/models";
+import {Model} from "@core/models/interface/model.interface";
 
 @Component({
   selector: 'app-single',
@@ -11,9 +15,9 @@ import {SinglePageInterface} from "../../../core/interfaces/single_page.interfac
   templateUrl: './single.component.html',
   styleUrl: './single.component.scss'
 })
-export class SingleComponent implements OnInit {
+export class SingleComponent<T extends Model> implements OnInit {
   protected formService: BaseFormService = inject(BaseFormService);
-  protected singleFormGroup!: FormGroup;
+  protected singleFormGroup!: FormGroup<Control<T>>;
 
   protected _route: ActivatedRoute = inject(ActivatedRoute);
   protected _router: Router = inject(Router);

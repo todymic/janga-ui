@@ -36,6 +36,15 @@
       ],
       "@environment/*": [
         "src/environments/*"
+      ],
+      "@admin/core/*": [
+        "src/app/admin/core/*"
+      ],
+      "@admin/features/*": [
+        "src/app/admin/features/*"
+      ],
+      "@admin/shared/*": [
+        "src/app/admin/shared/*"
       ]
     }
   },

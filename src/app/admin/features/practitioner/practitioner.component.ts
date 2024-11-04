@@ -24,6 +24,7 @@ import {Speciality} from "../../core/interfaces/speciality.interface";
 import {SpecialityService} from "../../core/services/speciality.service";
 import {SinglePageInterface} from "../../core/interfaces/single_page.interface";
 import {NgForOf} from "@angular/common";
+import {Control} from "@core/utilities/type";
 
 
 @Component({
@@ -47,46 +48,43 @@ import {NgForOf} from "@angular/common";
   styleUrl: './practitioner.component.scss'
 })
 
-export class PractitionerComponent extends SingleComponent implements OnInit, OnDestroy, SinglePageInterface {
+export class PractitionerComponent extends SingleComponent<Practitioner> implements OnInit, OnDestroy, SinglePageInterface {
 
   private _practitionerService: PractitionerService = inject(PractitionerService);
   private _officeService: OfficeService = inject(OfficeService);
-  private _languageService: LanguageService = inject(LanguageService);
   private _specialityService: SpecialityService = inject(SpecialityService);
   subscribedService: Subscription | null = null;
   offices!: Office[];
-  languages!: Language[];
+  languages!: string[];
   specialities!: Speciality[];
   hide: boolean = true;
 
   init: EditorComponent['init'] = {
     plugins: 'lists link image table code help wordcount'
   };
-  selectedOffice!: number | undefined;
-  selectedLanguages: number[] = [];
+  selectedOffices: number[] = [];
+  selectedLanguages: string[] = [];
   selectedSpecialities: number[] = [];
 
   override ngOnInit(): void {
 
-    this.formService.formGroup = this.formService.formBuilder.group({
-      firstname: ['', [Validators.required]],
-      lastname: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      description: [''],
-      active: [''],
-      officeId: ['', [Validators.required]],
-      languages: ['', [Validators.required]],
-      specialities: ['', [Validators.required]],
+    this.formService.formGroup = this.formService.formBuilder.group<Control<Practitioner>>({
+      firstname: this.formService.formBuilder.control<string>('', [Validators.required]),
+      lastname: this.formService.formBuilder.control<string>('', [Validators.required]),
+      email: this.formService.formBuilder.control<string>('', [Validators.required, Validators.email]),
+      description: this.formService.formBuilder.control<string>(''),
+      active: this.formService.formBuilder.control<boolean>(true),
+      offices: this.formService.formBuilder.control<string>('', [Validators.required]),
+      languages: this.formService.formBuilder.control<string>('', [Validators.required]),
+      specialities: this.formService.formBuilder.control<string>('', [Validators.required]),
+      degrees: this.formService.formBuilder.control<string>('', [Validators.required]),
+      password: this.formService.formBuilder.control<string>(''),
     });
 
     super.ngOnInit();
 
     // get offices
     this._officeService.getAll().subscribe((offices: Office[]) => this.offices = offices);
-
-    // get offices
-    this._languageService.getAll().subscribe((languages: Language[]) => this.languages = languages);
 
     // get offices
     this._specialityService.getAll().subscribe((specialities: Speciality[]) => this.specialities = specialities);
@@ -100,14 +98,13 @@ export class PractitionerComponent extends SingleComponent implements OnInit, On
 
           this.singleFormGroup.patchValue(practitioner);
 
-          this.selectedOffice = practitioner.office?.id;
-
-          practitioner.languages?.forEach(language => {
-
-            if (language.id != null) {
-              this.selectedLanguages.push(language.id)
+          practitioner.offices?.forEach(office => {
+            if (office.id != null) {
+              this.selectedOffices.push(office.id);
             }
           })
+
+          this.selectedLanguages = practitioner.languages;
 
           practitioner.specialities?.forEach(speciality => {
             if (speciality.id != null) {
@@ -118,9 +115,9 @@ export class PractitionerComponent extends SingleComponent implements OnInit, On
           })
 
           // set init values
-           this.singleFormGroup.get('officeId')?.setValue(this.selectedOffice);
-           this.singleFormGroup.get('specialities')?.setValue(this.selectedSpecialities);
-           this.singleFormGroup.get('languages')?.setValue(this.selectedLanguages);
+           this.singleFormGroup.controls.offices.setValue(this.selectedOffices);
+           this.singleFormGroup.controls.specialities.setValue(this.selectedSpecialities);
+           this.singleFormGroup.controls.languages?.setValue(this.selectedLanguages);
 
             this.isEditContext = true
           }
@@ -130,7 +127,7 @@ export class PractitionerComponent extends SingleComponent implements OnInit, On
 
   onSubmit(event: Event) {
 
-    const practitioner = this.singleFormGroup.value;
+    const practitioner: Practitioner = this.singleFormGroup.value as Practitioner;
 
     if (!this.isEditContext) {
       this._practitionerService

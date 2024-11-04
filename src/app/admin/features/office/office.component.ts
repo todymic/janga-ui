@@ -5,6 +5,7 @@ import {ReactiveFormsModule, Validators} from "@angular/forms";
 import {OfficeService} from "../../core/services/office.service";
 import {MatButton} from "@angular/material/button";
 import {SingleComponent} from "../page/single/single.component";
+import {Office} from "@admin/core/interfaces/office.interface";
 
 @Component({
   selector: 'app-office',
@@ -19,7 +20,7 @@ import {SingleComponent} from "../page/single/single.component";
   templateUrl: './office.component.html',
   styleUrl: './office.component.scss'
 })
-export class OfficeComponent extends SingleComponent implements OnInit {
+export class OfficeComponent extends SingleComponent<Office> implements OnInit {
 
   officeService: OfficeService = inject(OfficeService);
 
@@ -48,7 +49,7 @@ export class OfficeComponent extends SingleComponent implements OnInit {
 
   onSubmit($event: Event) {
 
-    let office = this.singleFormGroup.value;
+    let office = this.singleFormGroup.value as Office;
 
     if (!this.isEditContext) { // CREATE context
 

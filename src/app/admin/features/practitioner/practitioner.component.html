@@ -45,7 +45,7 @@
     <h4>Office</h4>
     <mat-form-field>
       <mat-label>Office</mat-label>
-      <mat-select formControlName="officeId" [(value)]="selectedOffice">
+      <mat-select formControlName="offices" multiple [(value)]="selectedOffices">
 
         @for (office of offices; track office) {
           <mat-option [value]="office.id">{{ office.name }}</mat-option>
@@ -58,8 +58,8 @@
     <mat-form-field>
       <mat-label>Language</mat-label>
       <mat-select formControlName="languages" multiple [(value)]="selectedLanguages">
-        @for (language of languages; track language) {
-          <mat-option [value]="language.id">{{ language.name }}</mat-option>
+        @for (language of selectedLanguages; track language) {
+          <mat-option [value]="language">{{ language }}</mat-option>
         }
       </mat-select>
     </mat-form-field>

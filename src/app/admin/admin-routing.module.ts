@@ -27,15 +27,11 @@ const routes: Routes = [
         loadChildren: () => import('./features/office/office.module').then(m => m.OfficeModule)
       },
       {
-        path: 'languages',
-        loadChildren: () => import('./features/language/language.module').then(m => m.LanguageModule)
-      },
-      {
         path: 'specialities',
         loadChildren: () => import('./features/speciality/speciality.module').then(m => m.SpecialityModule)
       }
     ]
-  },
+  }
 
 ];
 

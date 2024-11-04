@@ -13,10 +13,10 @@ import {Router} from "@angular/router";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements Auth {
+export class PatientAuthService implements Auth {
 
-  private _http: HttpClient = inject(HttpClient);
-  private _router: Router = inject(Router);
+  protected _http: HttpClient = inject(HttpClient);
+  protected _router: Router = inject(Router);
 
   protected _patient = signal<Patient | null>(null);
   private _token = signal<string | null>(null);

@@ -20,7 +20,7 @@ interface CrudLanguage {
 @Injectable({
   providedIn: 'root'
 })
-export class LanguageService implements CrudLanguage {
+export class LanguageService {
 
   BASE_URL = "http://127.0.0.1:3000/api/languages";
   http: HttpClient = inject(HttpClient);

@@ -15,7 +15,7 @@ import {MatIcon} from "@angular/material/icon";
 import {BaseFormService} from "../../../../admin/core/services/base-form.service";
 import {Login} from "@core/models";
 import {Control} from "@core/utilities/type";
-import {AuthService} from "@core/services/auth.service";
+import {PatientAuthService} from "@core/services/patient-auth.service";
 import {LoginRequest} from "@core/services/interface/login-request";
 import {Router} from "@angular/router";
 
@@ -36,11 +36,8 @@ import {Router} from "@angular/router";
 
 export class LoginComponent implements OnInit {
   protected formService: BaseFormService = inject(BaseFormService);
-  private _authService = inject(AuthService);
+  private _authService = inject(PatientAuthService);
   private _router = inject(Router);
-
-  // private _hide: WritableSignal<boolean> = signal<boolean>(true);
-  // isHide = computed(() => this._hide());
 
   isHide: boolean  = true;
 
@@ -56,11 +53,6 @@ export class LoginComponent implements OnInit {
     this.formService.formGroup = this.loginGroup;
 
   }
-
-  // onHide() {
-  //   // his._hide.set(!this._hide());
-  //   this
-  // }
 
 
   async onSubmit($event: any) {
