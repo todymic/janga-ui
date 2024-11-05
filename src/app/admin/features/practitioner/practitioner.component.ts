@@ -55,7 +55,6 @@ export class PractitionerComponent extends SingleComponent<Practitioner> impleme
   private _specialityService: SpecialityService = inject(SpecialityService);
   subscribedService: Subscription | null = null;
   offices!: Office[];
-  languages!: string[];
   specialities!: Speciality[];
   hide: boolean = true;
 

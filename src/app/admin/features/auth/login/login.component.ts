@@ -1,43 +1,51 @@
+import {Component, inject, OnInit} from '@angular/core';
+import {MatButton} from "@angular/material/button";
 import {
-  Component,
-  computed,
-  inject,
-  OnInit,
-  signal,
-  WritableSignal
-} from '@angular/core';
-import {MatCardModule} from "@angular/material/card";
-import {MatButtonModule} from "@angular/material/button";
-import {MatFormFieldModule} from "@angular/material/form-field";
+  MatCard,
+  MatCardActions,
+  MatCardAvatar,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle
+} from "@angular/material/card";
+import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
+import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatIcon} from "@angular/material/icon";
-import {BaseFormService} from "../../../../admin/core/services/base-form.service";
-import {Login} from "@core/models";
-import {Control} from "@core/utilities/type";
+import {BaseFormService} from "@admin/core/services/base-form.service";
 import {PatientAuthService} from "@core/services/patient-auth.service";
+import {Router, RouterLink} from "@angular/router";
+import {Control} from "@core/utilities/type";
+import {Login} from "@core/models";
 import {LoginRequest} from "@core/services/interface/login-request";
-import {Router} from "@angular/router";
-import {AuthResponse} from "@core/services/interface/auth-response";
+import {AdminAuthService} from "@admin/core/services/admin-auth.service";
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
+    MatButton,
+    MatCard,
+    MatCardActions,
+    MatCardAvatar,
+    MatCardContent,
+    MatCardHeader,
+    MatCardTitle,
+    MatError,
+    MatFormField,
+    MatIcon,
     MatInput,
+    MatLabel,
+    MatSuffix,
     ReactiveFormsModule,
-    MatIcon
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-
 export class LoginComponent implements OnInit {
   protected formService: BaseFormService = inject(BaseFormService);
-  private _authService = inject(PatientAuthService);
+  private _authService = inject(AdminAuthService);
   private _router = inject(Router);
 
   isHide: boolean  = true;
@@ -55,16 +63,17 @@ export class LoginComponent implements OnInit {
 
   }
 
-
   async onSubmit($event: any) {
 
     const formValues: Partial<LoginRequest> = this.loginGroup.value;
+
     this._authService.login(formValues as LoginRequest)
-      .subscribe((response: AuthResponse) => {
+      .subscribe((response) => {
         if(this._authService.isAuthenticated()) {
-          this._router.navigate(['/'])
+          this._router.navigate(['admin', 'index'])
         }
       });
 
   }
+
 }

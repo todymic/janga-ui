@@ -18,6 +18,5 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     headers
   });
 
-
   return next(newReq);
 };
