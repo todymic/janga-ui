@@ -16,7 +16,10 @@ import {PatientAuthService} from "@core/services/patient-auth.service";
 })
 export class HeaderComponent {
 
-  private _authService = inject(PatientAuthService);
+  // private _authService = inject(PatientAuthService);
+
+  constructor(private _authService: PatientAuthService) {
+  }
 
   showLoginLink = computed(() => !this._authService.isAuthenticated())
 
