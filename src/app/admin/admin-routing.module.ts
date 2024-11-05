@@ -1,8 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {PageNotFoundComponent} from "../page-not-found/page-not-found.component";
 import {AdminComponent} from "./admin.component";
-import {ListComponent} from "./features/page/list/list.component";
 import {dashboardGuard} from "@admin/core/guards/dashboard.guard";
 
 const routes: Routes = [
