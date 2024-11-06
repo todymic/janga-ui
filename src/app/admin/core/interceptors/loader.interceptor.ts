@@ -8,13 +8,10 @@ export const loaderInterceptor: HttpInterceptorFn = (req, next: HttpHandlerFn) =
   const loader: LoaderService = inject(LoaderService);
 
   loader.on();
-  console.log("loading onn");
 
   return next(req).pipe(
     finalize(() => {
-
-      console.log("loading off")
-      loader.off()
+      loader.off();
     })
   );
 };
