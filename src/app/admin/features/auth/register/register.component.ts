@@ -20,6 +20,9 @@ import {Login} from "@core/models";
 import {User} from "@admin/core/interfaces/user.interface";
 import {EditorComponent} from "@tinymce/tinymce-angular";
 import {MatCheckbox} from "@angular/material/checkbox";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {NgIf} from "@angular/common";
+import {LoaderService} from "@admin/core/services/loader.service";
 
 @Component({
   selector: 'app-register',
@@ -40,7 +43,9 @@ import {MatCheckbox} from "@angular/material/checkbox";
     MatSuffix,
     ReactiveFormsModule,
     EditorComponent,
-    MatCheckbox
+    MatCheckbox,
+    MatProgressSpinner,
+    NgIf
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -49,11 +54,14 @@ export class RegisterComponent implements OnInit {
 
   protected _formService: BaseFormService = inject(BaseFormService);
   protected _authService = inject(AdminAuthService);
+  protected _loaderService = inject(LoaderService);
   protected _router = inject(Router);
   registerGroup!: FormGroup<Control<User>>;
+
   init: EditorComponent['init'] = {
     plugins: 'lists link image table code help wordcount'
   };
+  protected loading: boolean = false;
 
   ngOnInit(): void {
 
@@ -72,8 +80,11 @@ export class RegisterComponent implements OnInit {
   onSubmit($event: any) {
 
     const register = this.registerGroup.value;
-    this._authService.register(register).subscribe(() => {
-      this._router.navigate(['admin', 'dashboard']).then();
+    this._authService.register(register).subscribe({
+      next: () => {
+        this._router.navigate(['admin', 'index']).then();
+      },
+      error: _ => this.loading = false
     });
   }
 }

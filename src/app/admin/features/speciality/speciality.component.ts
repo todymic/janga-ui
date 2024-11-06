@@ -6,6 +6,9 @@ import {MatInput} from "@angular/material/input";
 import {ReactiveFormsModule, Validators} from "@angular/forms";
 import {SpecialityService} from "../../core/services/speciality.service";
 import {Speciality} from "../../core/interfaces/speciality.interface";
+import {MatCard, MatCardContent, MatCardFooter} from "@angular/material/card";
+import {NgForOf, NgTemplateOutlet} from "@angular/common";
+import {EditorComponent} from "@tinymce/tinymce-angular";
 
 @Component({
   selector: 'app-speciality',
@@ -16,7 +19,13 @@ import {Speciality} from "../../core/interfaces/speciality.interface";
     MatFormField,
     MatInput,
     MatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCard,
+    NgTemplateOutlet,
+    NgForOf,
+    MatCardContent,
+    MatCardFooter,
+    EditorComponent
   ],
   templateUrl: './speciality.component.html',
   styleUrl: './speciality.component.scss'
@@ -24,6 +33,7 @@ import {Speciality} from "../../core/interfaces/speciality.interface";
 export class SpecialityComponent extends SingleComponent<Speciality> implements OnInit {
 
   private _specialityService: SpecialityService = inject(SpecialityService);
+  items: string[] = [];
 
   override ngOnInit() {
 
@@ -64,6 +74,7 @@ export class SpecialityComponent extends SingleComponent<Speciality> implements 
           this._router.navigate(["admin", "specialities"]).then()
         }
       })
+
 
     } else {
 

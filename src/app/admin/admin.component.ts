@@ -3,6 +3,7 @@ import {HeaderComponent} from "./shared/components/header/header.component";
 import {FooterComponent} from "./shared/components/footer/footer.component";
 import {RouterOutlet} from "@angular/router";
 import {SidebarComponent} from "./shared/components/sidebar/sidebar.component";
+import {LoaderComponent} from "@admin/features/loader/loader.component";
 
 @Component({
   selector: 'app-admin',
@@ -11,7 +12,8 @@ import {SidebarComponent} from "./shared/components/sidebar/sidebar.component";
     HeaderComponent,
     FooterComponent,
     RouterOutlet,
-    SidebarComponent
+    SidebarComponent,
+    LoaderComponent
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'

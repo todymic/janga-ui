@@ -1,32 +1,40 @@
-<form class="create-form" [formGroup]="formService.formGroup" (ngSubmit)="onSubmit($event)">
-  <mat-form-field class="field-full">
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="name"/>
-    @if(formService.isValidField('name')) {
-      <mat-error>This field is invalid</mat-error>
-    }
-  </mat-form-field>
-  <mat-form-field class="field-full">
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="name"/>
-    @if(formService.isValidField('name')) {
-      <mat-error>This field is invalid</mat-error>
-    }
-  </mat-form-field>
+<div class="form-container">
+  <form class="create-form" [formGroup]="formService.formGroup" (ngSubmit)="onSubmit($event)">
+  <mat-card>
 
-  <div class="group-button">
-    @if(isEditContext) {
-      <button (click)="onRemove()" mat-flat-button type="button" color="warn">Remove</button>
-    }
+      <mat-card-content>
+        <mat-form-field class="field-full">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name"/>
+          @if(formService.isValidField('name')) {
+            <mat-error>This field is invalid</mat-error>
+          }
+        </mat-form-field>
 
-    <button (click)="onReset()" mat-stroked-button type="button" class="">Cancel</button>
-    <button mat-flat-button type="submit" color="primary"  [disabled]="!formService.formGroup.valid">
-      @if(isEditContext) {
-        Edit
-      } @else {
-        Create
-      }
-    </button>
+        <editor formControlName="description"
+                apiKey="7sr59pwq3djoa6wb74q96qgfxdpy89nb92irbmleo0l5wjg1"></editor>
+      </mat-card-content>
+      <mat-card-footer>
+        <div class="group-button m-3">
+          @if(isEditContext) {
+            <button (click)="onRemove()" mat-flat-button type="button" color="warn">Remove</button>
+          }
 
-  </div>
-</form>
+          <button (click)="onReset()" mat-stroked-button type="button" class="">Cancel</button>
+          <button mat-flat-button type="submit" color="primary"  [disabled]="!formService.formGroup.valid">
+            @if(isEditContext) {
+              Edit
+            } @else {
+              Create
+            }
+          </button>
+
+        </div>
+      </mat-card-footer>
+
+  </mat-card>
+  </form>
+</div>
+
+
+
