@@ -5,7 +5,7 @@ import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {BaseFormService} from "../../../../admin/core/services/base-form.service";
+import {BaseFormService} from "@admin/core/services/base-form.service";
 import {SearchService} from "@core/services/search.service";
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {map, Observable, of, startWith, Subject, switchMap} from 'rxjs';

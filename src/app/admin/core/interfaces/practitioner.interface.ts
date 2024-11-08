@@ -6,6 +6,7 @@ export interface Practitioner extends Model {
   id?: number,
   firstname: string;
   lastname: string;
+  phone: string;
   email: string;
   description?: string;
   active?: boolean;
@@ -14,5 +15,6 @@ export interface Practitioner extends Model {
   specialities: Speciality[];
   offices: Office[];
   password?: string;
+  address?: string;
 
 }

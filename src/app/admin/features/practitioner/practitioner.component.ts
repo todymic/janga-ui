@@ -18,13 +18,14 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {SingleComponent} from "../page/single/single.component";
 import {Office} from "../../core/interfaces/office.interface";
 import {OfficeService} from "../../core/services/office.service";
-import {LanguageService} from "../../core/services/language.service";
-import {Language} from "../../core/interfaces/language.interface";
 import {Speciality} from "../../core/interfaces/speciality.interface";
 import {SpecialityService} from "../../core/services/speciality.service";
 import {SinglePageInterface} from "../../core/interfaces/single_page.interface";
 import {NgForOf} from "@angular/common";
 import {Control} from "@core/utilities/type";
+import {MatCardModule} from "@angular/material/card";
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatDivider} from "@angular/material/divider";
 
 
 @Component({
@@ -42,7 +43,10 @@ import {Control} from "@core/utilities/type";
     MatButtonModule,
     MatSnackBarModule,
     NgForOf,
-    MatOption
+    MatOption,
+    MatCardModule,
+    MatTabsModule,
+    MatDivider
   ],
   templateUrl: './practitioner.component.html',
   styleUrl: './practitioner.component.scss'
@@ -69,6 +73,7 @@ export class PractitionerComponent extends SingleComponent<Practitioner> impleme
 
     this.formService.formGroup = this.formService.formBuilder.group<Control<Practitioner>>({
       firstname: this.formService.formBuilder.control<string>('', [Validators.required]),
+      phone: this.formService.formBuilder.control<string>('', [Validators.required]),
       lastname: this.formService.formBuilder.control<string>('', [Validators.required]),
       email: this.formService.formBuilder.control<string>('', [Validators.required, Validators.email]),
       description: this.formService.formBuilder.control<string>(''),

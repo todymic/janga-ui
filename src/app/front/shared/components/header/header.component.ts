@@ -2,6 +2,7 @@ import {Component, computed, inject, model, OnChanges, signal, SimpleChanges} fr
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {MatAnchor} from "@angular/material/button";
 import {PatientAuthService} from "@core/services/patient-auth.service";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,8 @@ import {PatientAuthService} from "@core/services/patient-auth.service";
   imports: [
     RouterLinkActive,
     RouterLink,
-    MatAnchor
+    MatAnchor,
+    NgOptimizedImage
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
