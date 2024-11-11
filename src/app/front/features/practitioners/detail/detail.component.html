@@ -76,7 +76,7 @@
                   #open hour
                 </div>
                 <div class="col map">
-                  <app-map></app-map>
+                  <app-map [markerPositions]="positions()"></app-map>
                 </div>
               </div>
             </div>
@@ -88,7 +88,8 @@
             </div>
           </div>
           <div class="col-4 my-3 item-block rdv-block">
-            <button mat-flat-button color="blue">Prendre rendez-vous</button>
+            <button mat-flat-button color="blue" class="">Prendre rendez-vous</button>
+
           </div>
         </div>
       </div>
