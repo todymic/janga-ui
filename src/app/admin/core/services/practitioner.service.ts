@@ -1,20 +1,20 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Practitioner as IPractitioner} from "@admin/core/interfaces/practitioner.interface";
 import {map, tap, Observable, Subject} from "rxjs";
 import {
   GetPractitionerResponse,
   GetPractitionersResponse,
   StatusExceptedResponse
 } from "../interfaces/response.interface";
+import {Practitioner} from "@admin/core/interfaces/practitioner.interface";
 
 
 interface CrudPractitioner {
-  getAll(): Observable<IPractitioner[]>;
-  getOne(id: number): Observable<IPractitioner>;
-  create(practitioner: IPractitioner): Observable<IPractitioner>;
+  getAll(): Observable<Practitioner[]>;
+  getOne(id: number): Observable<Practitioner>;
+  create(practitioner: Practitioner): Observable<Practitioner>;
   delete(id: number): Observable<boolean>;
-  update(updatedData: IPractitioner): Observable<IPractitioner>;
+  update(updatedData: Practitioner): Observable<Practitioner>;
 }
 
 @Injectable({
@@ -25,13 +25,13 @@ export class PractitionerService implements CrudPractitioner {
   BASE_URL = "http://127.0.0.1:3000/api/practitioners";
   http: HttpClient = inject(HttpClient);
 
-  private _data: Subject<IPractitioner[]> = new Subject<IPractitioner[]>();
+  private _data: Subject<Practitioner[]> = new Subject<Practitioner[]>();
 
-  public get data(): Observable<IPractitioner[]> {
+  public get data(): Observable<Practitioner[]> {
    return this._data.asObservable();
   }
 
-  getAll(): Observable<IPractitioner[]> {
+  getAll(): Observable<Practitioner[]> {
    return  this.http.get<GetPractitionersResponse>(this.BASE_URL).pipe(
       tap(response => this._data.next(response.practitioners)),
       map((response: GetPractitionersResponse) => {
@@ -40,7 +40,7 @@ export class PractitionerService implements CrudPractitioner {
     );
   }
 
-  getOne(id: number): Observable<IPractitioner> {
+  getOne(id: number): Observable<Practitioner> {
     return this.http.get<GetPractitionerResponse>(this.BASE_URL + '/' + id ).pipe(
       map((response: GetPractitionerResponse) => {
         return response.practitioner;
@@ -49,7 +49,7 @@ export class PractitionerService implements CrudPractitioner {
 
   }
 
-  create(practitioner: IPractitioner): Observable<IPractitioner> {
+  create(practitioner: Practitioner): Observable<Practitioner> {
     return this.http.post<GetPractitionerResponse>(this.BASE_URL + '/new', practitioner).pipe(
       map((response: GetPractitionerResponse)=> response.practitioner)
     )
@@ -61,7 +61,7 @@ export class PractitionerService implements CrudPractitioner {
     );
   }
 
-  update(updatedPractitioner: IPractitioner): Observable<IPractitioner> {
+  update(updatedPractitioner: Practitioner): Observable<Practitioner> {
     return this.http.put<GetPractitionerResponse>(this.BASE_URL + '/' + updatedPractitioner.id, updatedPractitioner).pipe(
       map((response: GetPractitionerResponse)=> response.practitioner)
     );

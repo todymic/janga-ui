@@ -1,6 +1,22 @@
-@use '@angular/material/prebuilt-themes/indigo-pink.css';
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+//
+h1 {
+  font-family: "Host Grotesk", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: 700 !important;
+  font-style: normal;
+  font-size: 48px !important;
+}
+
+h2 {
+  font-family: "Host Grotesk", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: 600 !important;
+  font-style: normal;
+  font-size: 20px !important;
+}
 
 .material-symbols-outlined {
   font-variation-settings:

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AdminComponent} from "../admin/admin.component";
 import {FrontComponent} from "./front.component";
+import {DetailComponent} from "@features/practitioners/detail/detail.component";
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'practitioners/:id',
+        component: DetailComponent
       },
       {
         path: 'auth',

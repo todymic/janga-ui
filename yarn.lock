@@ -243,6 +243,14 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/google-maps@^18.2.12":
+  version "18.2.12"
+  resolved "https://registry.npmjs.org/@angular/google-maps/-/google-maps-18.2.12.tgz"
+  integrity sha512-2z4245QSt8ozIwPqvtZy9Z9IxSf/Jk+Hiw95eYc5eYkFrMWN3eFfjA1AXHbmcC/ezOvYoTdBKWdTPbi12oANfg==
+  dependencies:
+    "@types/google.maps" "^3.54.10"
+    tslib "^2.3.0"
+
 "@angular/material@~18.2.6":
   version "18.2.6"
   resolved "https://registry.npmjs.org/@angular/material/-/material-18.2.6.tgz"
@@ -1980,6 +1988,11 @@
     "@types/express-serve-static-core" "^4.17.33"
     "@types/qs" "*"
     "@types/serve-static" "*"
+
+"@types/google.maps@^3.54.10":
+  version "3.58.1"
+  resolved "https://registry.npmjs.org/@types/google.maps/-/google.maps-3.58.1.tgz"
+  integrity sha512-X9QTSvGJ0nCfMzYOnaVs/k6/4L+7F5uCS+4iUmkLEls6J9S/Phv+m/i3mDeyc49ZBgwab3EFO1HEoBY7k98EGQ==
 
 "@types/http-errors@*":
   version "2.0.4"
@@ -6734,7 +6747,7 @@ symbol-observable@4.0.0:
   resolved "https://registry.npmjs.org/symbol-observable/-/symbol-observable-4.0.0.tgz"
   integrity sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==
 
-"tailwindcss@^2.0.0 || ^3.0.0", tailwindcss@^3.4.13:
+"tailwindcss@^2.0.0 || ^3.0.0":
   version "3.4.13"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.13.tgz"
   integrity sha512-KqjHOJKogOUt5Bs752ykCeiwvi0fKVkr5oqsFNt/8px/tA8scFPIlkygsf6jXrfCqGHz7VflA6+yytWuM+XhFw==

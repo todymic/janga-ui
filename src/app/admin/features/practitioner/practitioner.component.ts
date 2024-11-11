@@ -12,7 +12,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {EditorComponent} from "@tinymce/tinymce-angular";
 import {MatButtonModule} from '@angular/material/button';
 import {PractitionerService} from "../../core/services/practitioner.service";
-import {Practitioner} from "../../core/interfaces/practitioner.interface";
+
 import {Subscription} from "rxjs";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {SingleComponent} from "../page/single/single.component";
@@ -26,6 +26,7 @@ import {Control} from "@core/utilities/type";
 import {MatCardModule} from "@angular/material/card";
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDivider} from "@angular/material/divider";
+import {Practitioner} from "@admin/core/interfaces/practitioner.interface";
 
 
 @Component({

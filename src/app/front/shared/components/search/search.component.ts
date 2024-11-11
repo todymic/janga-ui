@@ -14,6 +14,7 @@ import {Control} from "@core/utilities/type";
 import {Search} from '@core/models';
 import {SearchPractitionerResponse, SearchResponse, SearchSpecialityResponse} from "@core/utilities/search-response";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-search',
@@ -33,7 +34,8 @@ import {toSignal} from "@angular/core/rxjs-interop";
     MatButton,
     MatIconButton,
     MatAutocompleteModule,
-    AsyncPipe
+    AsyncPipe,
+    RouterLink
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -44,12 +46,12 @@ export class SearchComponent implements OnInit {
 
   protected formService: BaseFormService = inject(BaseFormService);
   protected searchService: SearchService = inject(SearchService);
+  private _router: Router = inject(Router);
 
   specialities = signal<SearchSpecialityResponse[]>([]);
   filteredSpecialityOptions = computed(() => this.specialities());
 
   searchGroup!: FormGroup<Control<Search>>;
-  searchSpecialityOptions: SearchSpecialityResponse[] = [];
   filteredPractitionerOptions!: Observable<SearchResponse[]>;
   practitionerOrOffice: Subject<string> = new Subject();
 
@@ -109,5 +111,10 @@ export class SearchComponent implements OnInit {
   private _filterSpecialityOptions(value: any): SearchSpecialityResponse[] {
     const name: string = value.toLowerCase();
     return this.specialities().filter((option: any) => option.name.toLowerCase().includes(name));
+  }
+
+  onSelectPractitioner(id: number) {
+    this._router.navigate(['practitioners', id]).then();
+
   }
 }

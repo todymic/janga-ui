@@ -1,0 +1,98 @@
+<div class="detail-wrapper">
+  <section class="head-top">
+    <div class="profile container">
+      <div class="profile-image"><img src="assets/avatar.jpg" alt=""/></div>
+      <div class="profile-title d-flex flex-column justify-content-center h-100">
+        <h1 class="profile-name">{{ practitioner()?.lastname }}</h1>
+        <div class="profile-speciality">{{ practitioner()?.firstname }}</div>
+      </div>
+    </div>
+  </section>
+  <section class="main">
+    <div class="tabs">
+      <ul class="list-menu container">
+        <li><a href="{{baseUrl}}#office" class="item-menu host-grotesk-menu">Cabinet</a></li>
+        <li><a href="{{baseUrl}}#availability" class="item-menu host-grotesk-menu">Disponibilités</a></li>
+        <li><a href="{{baseUrl}}#payment" class="item-menu host-grotesk-menu">Payments</a></li>
+        <li><a href="{{baseUrl}}#description" class="item-menu host-grotesk-menu">Description</a></li>
+      </ul>
+      <mat-divider class="liner"></mat-divider>
+    </div>
+    <div class="main-content grey-block py-3 ">
+      <div class="container container-lg">
+        <div class="row gap-5">
+          <div class="col-8 my-3 info-block ">
+            <div id="informations" class="item-block mb-3">
+              <div class="office" *ngIf="practitioner()?.offices">
+                <h2 class="title">Address</h2>
+                <div class="office-item" *ngFor="let office of practitioner()?.offices">
+                  <div class="office-information">
+                    <span class="office-name fw-bold"> {{ office.name }}</span>
+                    <div class="office-address d-flex flex-column">
+                      <span class="street">{{ office.address.street }} </span>
+                      <span class="city">{{ office.address.zipcode }} - {{ office.address.city }}</span>
+                      <span class="country">{{ office.address.country }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <mat-divider class="my-3"></mat-divider>
+              <div id="speciality" class="">
+                <h2 class="title">Specialities</h2>
+                <div class="content">
+                  <mat-chip-set *ngIf="practitioner()?.specialities" aria-label="Speciality selection">
+                    <mat-chip *ngFor="let speciality of practitioner()?.specialities; ">{{ speciality.name }}</mat-chip>
+                  </mat-chip-set>
+                </div>
+              </div>
+              <mat-divider class="my-3"></mat-divider>
+              <div id="language" class="">
+                <h2 class="title">Languages</h2>
+                <div class="content">
+                  <mat-chip-set *ngIf="practitioner()?.languages" aria-label="Speciality selection">
+                    <mat-chip *ngFor="let language of practitioner()?.languages; ">{{ language }}</mat-chip>
+                  </mat-chip-set>
+                </div>
+              </div>
+              <mat-divider class="my-3"></mat-divider>
+              <div id="payment" class="">
+                <h2 class="title">Payments</h2>
+                <div class="content">
+                  #payments
+                </div>
+              </div>
+            </div>
+
+            <div id="availability" class="item-block mb-3">
+              <h2 class="title">Availability</h2>
+              <div class="content">
+                #slots
+              </div>
+            </div>
+            <div id="accessibility" class="item-block mb-3">
+              <h2>Accessibility</h2>
+              <div class="row">
+                <div class="col">
+                  #open hour
+                </div>
+                <div class="col map">
+                  <app-map></app-map>
+                </div>
+              </div>
+            </div>
+            <div id="description" class="item-block">
+              <h2 class="title">Description</h2>
+              <div class="content">
+                <p>{{ practitioner()?.description }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 my-3 item-block rdv-block">
+            <button mat-flat-button color="blue">Prendre rendez-vous</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

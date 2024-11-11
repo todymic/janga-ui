@@ -6,7 +6,7 @@
       <input matInput formControlName="searchPractitioner" [matAutocomplete]="practitionerField">
       <mat-autocomplete #practitionerField="matAutocomplete" [displayWith]="displayPractitionerFn">
         @for (practitioner of filteredPractitionerOptions | async; track practitioner) {
-          <mat-option [value]="practitioner">{{ practitioner.name }}</mat-option>
+          <mat-option [value]="practitioner.id" (click)="onSelectPractitioner(practitioner.id)">{{ practitioner.name }}</mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
