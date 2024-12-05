@@ -30,8 +30,11 @@ import {MapComponent} from "@shared/map/map.component";
 export class DetailComponent implements OnInit {
 
   protected currentId!: number;
-  protected practitioner: WritableSignal<Practitioner | null> = signal<Practitioner | null>(null);
-  protected baseUrl!: string
+
+  @Input() practitioner!: Practitioner;
+
+  protected baseUrl!: string;
+
   positions = signal<google.maps.LatLngLiteral[]>([]);
   constructor(private _activateRoute: ActivatedRoute, private _practitionerService: PractitionerService, private _router: Router ) {
    this.currentId = this._activateRoute.snapshot.params['id'];
@@ -41,10 +44,7 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this._practitionerService.getOne(this.currentId).subscribe({
-      next: (practitioner: Practitioner) => this.practitioner.set(practitioner)
-    })
-
+    console.log(this.practitioner);
 
   }
 }

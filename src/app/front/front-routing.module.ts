@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {AdminComponent} from "../admin/admin.component";
 import {FrontComponent} from "./front.component";
 import {DetailComponent} from "@features/practitioners/detail/detail.component";
+import {practitionerResolver} from "@core/resolver/practitioner.resolver";
 
 const routes: Routes = [
   {
@@ -15,7 +16,10 @@ const routes: Routes = [
       },
       {
         path: 'practitioners/:id',
-        component: DetailComponent
+        component: DetailComponent,
+        resolve: {
+          practitioner: practitionerResolver
+        }
       },
       {
         path: 'auth',

@@ -37,6 +37,11 @@
 
 .tabs {
   height: 50px;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px 0 #2b466033;
 
   ul.list-menu {
     display: flex;
@@ -44,6 +49,7 @@
     align-content: center;
     flex-wrap: wrap;
     margin-bottom: 0;
+
 
     li {
       list-style: none;
@@ -65,11 +71,11 @@
     }
   }
 
-  .liner {
-    box-shadow: 0 3px 13px 0 #2b466033;
-    z-index: 1;
-    position: sticky;
-  }
+  //.liner {
+  //  box-shadow: 0 3px 13px 0 #2b466033;
+  //  z-index: 1;
+  //  position: sticky;
+  //}
 }
 
 .main-content {
@@ -85,16 +91,18 @@
     background-color: #ffffff;
     border-radius: 10px;
     padding: 20px;
+    right: 0;
   }
 
   .info-block {
-    width: calc(100% - 23vw);
+    width: calc(100% - 28vw);
   }
 
   .rdv-block {
-    width: calc(100% - 63vw);
-    height: 500px;
-    position: fixed;
+    width: calc(100% - 68vw);
+    position: sticky;
+    align-self: start;
+    top: 79px
   }
 }
 
@@ -103,7 +111,6 @@
 }
 
 .office-item {
-
   .office-information {
     padding: 15px 0;
 

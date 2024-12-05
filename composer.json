@@ -5,7 +5,10 @@
   "license": "proprietary",
   "type": "cakephp-plugin",
   "config": {
-    "secure-http": false
+    "secure-http": false,
+    "allow-plugins": {
+      "composer/installers": true
+    }
   },
   "authors": [
     {
