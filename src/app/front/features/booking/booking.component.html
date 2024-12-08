@@ -1,0 +1,47 @@
+
+<div class="container wrapper d-flex column-gap-3 w-100">
+  <div class="wrapper-steps-form w-100 px-3 ">
+    <div class="wrapper-steps-navigation d-flex my-3">
+        <div class="steps" *ngFor="let step of steps; ">
+          <div class="step-item">
+              <mat-icon aria-hidden="false" fontIcon="{{ step.icon }}" ></mat-icon>
+              {{ step.label }}
+          </div>
+        </div>
+    </div>
+    <div class="wrapper-steps-form my-3 ">
+      <mat-card >
+        <mat-card-content>
+          <ng-container *ngComponentOutlet="stepComponent();inputs: {'practitioner': practitioner}"></ng-container>
+        </mat-card-content>
+        <mat-card-footer class="d-flex justify-content-between">
+          <button mat-button (click)="backStep($event)" color="primary">Back</button>
+          <button mat-button (click)="nextStep($event)" color="primary">Next</button>
+        </mat-card-footer>
+      </mat-card>
+
+    </div>
+<!--    <div class="wrapper-steps-indicators my-3">-->
+<!--      <ul class="steps-indicators" >-->
+<!--        <li class="steps-indicators-item" *ngFor="let step of steps; index as i">-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+
+  </div>
+  <div class="wrapper-resume w-75">
+    <mat-card>
+      <mat-card-header class="resume-header">
+        <mat-card-title class="resume-header-title">Resume</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="resume-content">
+        <div class="resume-steps-list">
+<!--          <ng-container *ngTemplateOutlet="resumeStepTpl" *ngfo></ng-container>-->
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>
+
+

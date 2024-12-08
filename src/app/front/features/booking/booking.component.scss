@@ -1,0 +1,24 @@
+.steps-indicators {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 10px;
+
+  .steps-indicators-item {
+    list-style: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 30px;
+    border: 1px solid;
+
+
+    &:hover {
+      width: 15px;
+      height: 15px;
+      background-color: black;
+    }
+  }
+}

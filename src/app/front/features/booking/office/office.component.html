@@ -1,0 +1,19 @@
+@if (practitioner) {
+  <div class="office-form">
+    <form [formGroup]="form" >
+      <mat-selection-list formControlName="office" [multiple]="false">
+        @for (office of practitioner.offices; track office) {
+          <mat-list-option [value]="office" class="d-flex my-3" color="primary">
+            <div class="office-name"><strong>{{office.name}}</strong></div>
+            <div class="office-address d-flex">
+              <span class="street">{{ office.address.street }} </span><br/>
+              <span class="city">{{ office.address.zipcode }} - {{ office.address.city }}</span>
+              <span class="country">{{ office.address.country }}</span>
+            </div>
+          </mat-list-option>
+        }
+      </mat-selection-list>
+    </form>
+  </div>
+}
+

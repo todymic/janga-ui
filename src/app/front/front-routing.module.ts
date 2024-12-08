@@ -4,6 +4,7 @@ import {AdminComponent} from "../admin/admin.component";
 import {FrontComponent} from "./front.component";
 import {DetailComponent} from "@features/practitioners/detail/detail.component";
 import {practitionerResolver} from "@core/resolver/practitioner.resolver";
+import {appointmentResolver} from "@core/resolver/appointment.resolver";
 
 const routes: Routes = [
   {
@@ -20,11 +21,20 @@ const routes: Routes = [
         resolve: {
           practitioner: practitionerResolver
         }
+
+      },
+      {
+        path: 'booking',
+        loadChildren: () => import('./features/booking/booking.module').then(m => m.BookingModule),
+        resolve: {
+          appointment: appointmentResolver,
+        }
       },
       {
         path: 'auth',
         loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)
       }
+
     ]
 
   },
