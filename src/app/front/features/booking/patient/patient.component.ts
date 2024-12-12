@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {BaseComponent} from "@features/booking/base-component";
+import {PatientBooking} from "@features/booking/interface/patient.booking";
 
 @Component({
   selector: 'app-patient',
@@ -7,6 +9,6 @@ import { Component } from '@angular/core';
   templateUrl: './patient.component.html',
   styleUrl: './patient.component.scss'
 })
-export class PatientComponent {
+export class PatientComponent extends BaseComponent<PatientBooking>  {
 
 }

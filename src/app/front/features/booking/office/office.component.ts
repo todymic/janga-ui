@@ -19,10 +19,18 @@ import {MatSelect} from "@angular/material/select";
 import {AppointmentService} from "@core/services/appointment.service";
 import {Practitioner} from "@core/models/practitioner";
 import {MatListModule} from '@angular/material/list';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule, ValidationErrors,
+  ValidatorFn,
+  Validators
+} from "@angular/forms";
 import {Office} from "@core/models/office";
 import {Control} from "@core/utilities/type";
-import {BaseComponent} from "@features/booking/base-component";
+import {BaseComponent, ComponentInterface} from "@features/booking/base-component";
 import {OfficeBooking} from "@features/booking/interface/office.booking";
 
 @Component({
@@ -49,30 +57,33 @@ export class OfficeComponent extends BaseComponent<OfficeBooking> implements OnI
 
   ngOnInit(): void {
 
-    this.form = this.formBuilder.group<Control<OfficeBooking>>({
-      office: this.formBuilder.control<Office | null>(null, [Validators.required])
-    })
+    this.formGroup = this.formBuilder.group<Control<OfficeBooking>>({
+        office: this.formBuilder.control<Office | null>(null, [Validators.required])
+      })
 
-    const appointment = this._appointmentService.currentAppointment;
+    const appointment = this.appointmentService.currentAppointment;
 
-    //Init value
-    if(appointment?.officeId) {
+    // save data
+    this.formGroup.controls.office.valueChanges.subscribe({
+      next: value => {
+        if (appointment) {
+          appointment.officeId = value[0]?.id;
+          this.appointmentService.updateAppointment = appointment;
+        }
+
+        this.bookingFormService.validCurrentStep(this.formGroup.controls.office, 'offices')
+      }
+    });
+
+    // //Init value
+    if (appointment?.officeId) {
 
       const office = this.practitioner.offices.find(office => office.id == appointment?.officeId);
 
-      this.form.controls.office.setValue([office])
+      this.formGroup.controls.office.patchValue([office]);
+
+      this.bookingFormService.validCurrentStep(this.formGroup.controls.office, 'offices');
     }
 
-
-    this.form.controls.office.valueChanges.subscribe({
-      next: value => {
-        if(appointment) {
-          appointment.officeId = value[0]?.id;
-          this._appointmentService.updateAppointment = appointment;
-        }
-
-      }
-    })
   }
-
 }

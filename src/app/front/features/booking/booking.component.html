@@ -9,17 +9,17 @@
           </div>
         </div>
     </div>
-    <div class="wrapper-steps-form my-3 ">
-      <mat-card >
-        <mat-card-content>
-          <ng-container *ngComponentOutlet="stepComponent();inputs: {'practitioner': practitioner}"></ng-container>
-        </mat-card-content>
-        <mat-card-footer class="d-flex justify-content-between">
-          <button mat-button (click)="backStep($event)" color="primary">Back</button>
-          <button mat-button (click)="nextStep($event)" color="primary">Next</button>
-        </mat-card-footer>
-      </mat-card>
 
+    <div class="wrapper-steps-form my-3 ">
+        <mat-card >
+          <mat-card-content>
+            <ng-container *ngComponentOutlet="validComponent();inputs: {'practitioner': practitioner}"></ng-container>
+          </mat-card-content>
+          <mat-card-footer class="d-flex justify-content-between steps-navigation">
+            <button class="steps-navigation-back" mat-button (click)="bookingFormService.backStep()" color="primary" *ngIf="bookingFormService.currentStep > 0" >Back</button>
+            <button class="steps-navigation-next" mat-button (click)="bookingFormService.nextStep()" color="primary" *ngIf="bookingFormService.currentStep < bookingFormService.finalStep()" [disabled]="!bookingFormService.isValidStep()">Next</button>
+          </mat-card-footer>
+        </mat-card>
     </div>
 <!--    <div class="wrapper-steps-indicators my-3">-->
 <!--      <ul class="steps-indicators" >-->

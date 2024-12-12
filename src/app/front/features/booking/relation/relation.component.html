@@ -1,1 +1,13 @@
-<p> {{ appointment | json}}</p>
+@if (practitioner) {
+  <div class="wrapper-form">
+    <form [formGroup]="formGroup" >
+      <mat-selection-list formControlName="relation" [multiple]="false">
+        @for (isNewPatient of relationType; track isNewPatient) {
+          <mat-list-option [value]="isNewPatient" class="d-flex my-3" color="primary">
+            <div class="option-item"><strong>{{ isNewPatient === '1' ? 'Nouvel patient' : 'patient existant' }}</strong></div>
+          </mat-list-option>
+        }
+      </mat-selection-list>
+    </form>
+  </div>
+}

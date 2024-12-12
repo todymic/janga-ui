@@ -1,6 +1,6 @@
 @if (practitioner) {
   <div class="office-form">
-    <form [formGroup]="form" >
+    <form [formGroup]="formGroup" >
       <mat-selection-list formControlName="office" [multiple]="false">
         @for (office of practitioner.offices; track office) {
           <mat-list-option [value]="office" class="d-flex my-3" color="primary">

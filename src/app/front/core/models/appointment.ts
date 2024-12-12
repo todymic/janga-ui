@@ -3,7 +3,7 @@ export interface Appointment {
   practitionerId: number,
   patientId?: number,
   reasonId?: number,
-  relation?: string,
+  relation?: number,
   date?: Date,
   visio?: boolean,
   patientNote?: string

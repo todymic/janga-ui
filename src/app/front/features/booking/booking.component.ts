@@ -1,23 +1,14 @@
 import {
-  AfterContentInit,
-  AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component, ComponentRef, computed,
+  Component, computed,
   inject,
-  Input, OnDestroy,
-  OnInit, TemplateRef,
-  Type,
-  ViewChild,
-  ViewContainerRef
+  Input, OnInit, Signal, signal
 } from '@angular/core';
-import {ActivatedRoute, RouterOutlet} from "@angular/router";
+import {RouterOutlet} from "@angular/router";
 import {Appointment} from "@core/models/appointment";
-import {JsonPipe, NgComponentOutlet, NgForOf, NgTemplateOutlet} from "@angular/common";
+import {JsonPipe, NgComponentOutlet, NgForOf, NgIf, NgTemplateOutlet} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatStepperModule} from '@angular/material/stepper';
-import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {OfficeComponent} from "@features/booking/office/office.component";
@@ -29,13 +20,9 @@ import {RelationComponent} from "@features/booking/relation/relation.component";
 import {AvailabilitiesComponent} from "@features/booking/availabilities/availabilities.component";
 import {PatientComponent} from "@features/booking/patient/patient.component";
 import {Practitioner} from "@core/models/practitioner";
-import {StepService} from "@core/services/step.service";
-
-interface Step {
-  label: string,
-  link: string,
-  icon: string
-}
+import {BookingFormService} from "@core/services/booking-form.service";
+import {Step} from "@features/booking/interface/step.booking";
+import {BaseComponent} from "@features/booking/base-component";
 
 @Component({
   selector: 'app-booking',
@@ -54,7 +41,8 @@ interface Step {
     MatButtonToggleGroup,
     NgTemplateOutlet,
     NgForOf,
-    MatIcon
+    MatIcon,
+    NgIf
   ],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.scss'
@@ -65,73 +53,68 @@ export class BookingComponent implements OnInit {
 
   @Input() practitioner!: Practitioner;
 
-  private _formBuilder = inject(FormBuilder);
+  bookingFormService: BookingFormService = inject(BookingFormService);
 
-  private _routes = inject(ActivatedRoute);
+  stepComponent: Signal<any> | null = null;
 
-  private _stepService = inject(StepService);
-
-  stepComponent = computed(() => this.componentMap[this._stepService.currentStep]);
-
-  componentMap = [
-    OfficeComponent,
-    RelationComponent,
-    ReasonComponent,
-    AvailabilitiesComponent,
-    PatientComponent
-  ];
-
-  resumeStepTpl!: TemplateRef<any> | null;
+  validComponent =  computed(() => {
+    return this.stepComponent  ? this.stepComponent() : null;
+  })
 
   steps: Step[] = [];
 
   ngOnInit(): void {
 
     this.steps = [
-      {
-        label: 'Offices',
-        link: 'office/link',
-        icon: 'apartment'
-      },
+
       {
         label: 'Relations',
         link: 'office/link',
-        icon: 'handshake'
+        icon: 'handshake',
+        component: RelationComponent
       },
       {
         label: 'Reasons',
         link: 'reason/link',
-        icon: 'reason'
+        icon: 'reason',
+        component: ReasonComponent
       },
       {
         label: 'Availabilities',
         link: 'availabilities/link',
-        icon: 'event available'
+        icon: 'event available',
+        component: AvailabilitiesComponent
       },
       {
         label: 'Patient',
         link: 'patient/link',
-        icon: 'patient'
-      },
-      {
-        label: 'Confirmation',
-        link: 'confirmation/link',
-        icon: 'confirmation'
+        icon: 'patient',
+        component: PatientComponent
       }
 
     ];
 
+    if(this.practitioner) {
+      if(this.practitioner.offices.length > 1) { // if office already set, start form relation step
+
+        this.steps = [...[{
+          label: 'Offices',
+          link: 'office/link',
+          icon: 'apartment',
+          component: OfficeComponent
+        }], ...this.steps]
+      }
+
+      this.bookingFormService.initForm(this.steps);
+
+      this.stepComponent = computed(() => this.steps[this.bookingFormService.currentStep].component);
+
+
+    }
+
+
+
+
   }
 
-
-  backStep($event: MouseEvent) {
-    this._stepService.back();
-    console.log(this._stepService.currentStep)
-
-  }
-
-  nextStep($event: MouseEvent) {
-    this._stepService.next();
-    console.log(this._stepService.currentStep)
-  }
 }

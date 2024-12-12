@@ -1,12 +1,19 @@
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {inject} from "@angular/core";
+import {Component, inject} from "@angular/core";
 import {AppointmentService} from "@core/services/appointment.service";
-import {Control} from "@core/utilities/type";
-import {StepBooking} from "@features/booking/interface/step.booking";
+import {Control, StepBooking} from "@core/utilities/type";
+import {BookingFormService} from "@core/services/booking-form.service";
 
-export class BaseComponent<T extends StepBooking> {
+export interface ComponentInterface {
+}
 
-  protected form!: FormGroup<Control<T>>;
+export class BaseComponent<T extends StepBooking>  {
+
+  protected formGroup!: FormGroup<Control<T>>;
   protected formBuilder: FormBuilder = inject(FormBuilder);
-  protected _appointmentService = inject(AppointmentService);
+  protected appointmentService = inject(AppointmentService);
+  protected bookingFormService = inject(BookingFormService);
+
+
+
 }

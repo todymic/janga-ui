@@ -18,7 +18,6 @@ export class AppointmentService {
   set updateAppointment(appointment: Appointment) {
     this._appointment.set(appointment);
     this._session.saveItem('appointment', appointment);
-
   }
 
 

@@ -2,32 +2,22 @@ import {computed, inject, Injectable, Signal, signal, WritableSignal} from '@ang
 import {AppointmentService} from "@core/services/appointment.service";
 import {Appointment} from "@core/models/appointment";
 import {SessionService} from "@core/services/session.service";
+import {Step} from "@features/booking/interface/step.booking";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StepService {
 
-  private _appointmentService = inject(AppointmentService);
-
   private _session = inject(SessionService);
 
-  private appointment!: Appointment | null;
+  steps: Step[] = [];
 
-  private steps: string[] = ['office', 'relation', 'reason', 'availabilities', 'patient'];
-
-  initStep: number = this._session.getItem('step') ?? this.steps.indexOf('office');
+  initStep: number = this._session.getItem('step') ?? 0;
 
   private readonly _currentStep: WritableSignal<number>  = signal<number>(this.initStep);
 
   constructor() {
-
-    this.appointment = this._appointmentService.currentAppointment;
-
-    // if office already set, start from relation step
-    if(this.appointment?.officeId && this.currentStep == 0) {
-      this.next();
-    }
 
     this.initStep = this.currentStep;
     this._session.saveItem('step', this.initStep);
@@ -38,8 +28,6 @@ export class StepService {
       this._currentStep.update((step) => step + 1);
       this._session.saveItem('step', this.currentStep);
     }
-
-
   }
 
   back() {
@@ -47,7 +35,6 @@ export class StepService {
       this._currentStep.update((step) => step - 1);
       this._session.saveItem('step', this.currentStep);
     }
-
   }
 
   get currentStep(): number {
