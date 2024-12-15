@@ -23,6 +23,9 @@ import {Practitioner} from "@core/models/practitioner";
 import {BookingFormService} from "@core/services/booking-form.service";
 import {Step} from "@features/booking/interface/step.booking";
 import {BaseComponent} from "@features/booking/base-component";
+import {AppointmentService} from "@core/services/appointment.service";
+import {Reason} from "@core/models/reason";
+import {BookingData} from "@core/utilities/type";
 
 @Component({
   selector: 'app-booking',
@@ -51,59 +54,71 @@ export class BookingComponent implements OnInit {
 
   @Input() appointment!: Appointment;
 
+  @Input() booking!: BookingData;
+
   @Input() practitioner!: Practitioner;
 
   bookingFormService: BookingFormService = inject(BookingFormService);
 
+  private _appointmentService: AppointmentService = inject(AppointmentService);
+
   stepComponent: Signal<any> | null = null;
 
-  validComponent =  computed(() => {
-    return this.stepComponent  ? this.stepComponent() : null;
+  validComponent = computed(() => {
+    return this.stepComponent ? this.stepComponent() : null;
   })
 
   steps: Step[] = [];
 
   ngOnInit(): void {
 
-    this.steps = [
+    this.steps = [];
 
-      {
-        label: 'Relations',
-        link: 'office/link',
-        icon: 'handshake',
-        component: RelationComponent
-      },
-      {
-        label: 'Reasons',
-        link: 'reason/link',
-        icon: 'reason',
-        component: ReasonComponent
-      },
-      {
-        label: 'Availabilities',
-        link: 'availabilities/link',
-        icon: 'event available',
-        component: AvailabilitiesComponent
-      },
-      {
-        label: 'Patient',
-        link: 'patient/link',
-        icon: 'patient',
-        component: PatientComponent
-      }
-
-    ];
-
-    if(this.practitioner) {
-      if(this.practitioner.offices.length > 1) { // if office already set, start form relation step
-
-        this.steps = [...[{
+    if (this.practitioner) {
+      if (this.practitioner.offices.length > 1) { // if office already set, start form relation step
+        this.steps.push({
           label: 'Offices',
           link: 'office/link',
           icon: 'apartment',
           component: OfficeComponent
-        }], ...this.steps]
+        });
       }
+
+      //relations
+      this.steps.push({
+        label: 'Relations',
+        link: 'office/link',
+        icon: 'handshake',
+        component: RelationComponent
+      });
+
+
+      //reason datas
+      if(this.booking.reasons.length > 1) {
+        this.steps.push({
+          label: 'Reasons',
+          link: 'reason/link',
+          icon: 'reason',
+          component: ReasonComponent
+        });
+      }
+
+      //availabilities
+      this.steps = [...this.steps, ...[
+        {
+          label: 'Availabilities',
+          link: 'availabilities/link',
+          icon: 'event available',
+          component: AvailabilitiesComponent
+        },
+        {
+          label: 'Patient',
+          link: 'patient/link',
+          icon: 'patient',
+          component: PatientComponent
+        }]
+      ];
+
 
       this.bookingFormService.initForm(this.steps);
 

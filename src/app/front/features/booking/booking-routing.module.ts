@@ -8,41 +8,20 @@ import {AvailabilitiesComponent} from "@features/booking/availabilities/availabi
 import {ConfirmationComponent} from "@features/booking/confirmation/confirmation.component";
 import {BookingComponent} from "@features/booking/booking.component";
 import {practitionerResolver} from "@core/resolver/practitioner.resolver";
+import {appointmentResolver} from "@core/resolver/appointment.resolver";
+import {bookingResolver} from "../../../fornt/core/resolver/booking.resolver";
 
 const routes: Routes = [
   {
     path: '',
     component: BookingComponent,
     resolve: {
-      practitioner: practitionerResolver
+      practitioner: practitionerResolver,
+      appointment: appointmentResolver,
+      booking: bookingResolver
     }
 
-    // children: [
-    //   {
-    //     path: 'office',
-    //     component: OfficeComponent
-    //   },
-    //   {
-    //     path: 'relation',
-    //     component: RelationComponent
-    //   },
-    //   {
-    //     path: 'reason',
-    //     component: ReasonComponent
-    //   },
-    //   {
-    //     path: 'patient',
-    //     component: PatientComponent
-    //   },
-    //   {
-    //     path: 'availabilities',
-    //     component: AvailabilitiesComponent
-    //   },
-    //   {
-    //     path: 'confirmation',
-    //     component: ConfirmationComponent
-    //   }
-    // ]
+
   }
 ];
 

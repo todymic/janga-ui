@@ -8,6 +8,7 @@ import {MatListOption, MatSelectionList} from "@angular/material/list";
 import {Reason} from "@core/models/reason";
 import {AppointmentService} from "@core/services/appointment.service";
 import {Subject, takeUntil} from "rxjs";
+import {Appointment} from "@core/models/appointment";
 
 @Component({
   selector: 'app-reason',
@@ -36,7 +37,7 @@ export class ReasonComponent extends BaseComponent<ReasonBooking> implements OnI
     this._appointmentService.getReasons(this.practitioner.id as string).pipe(
       takeUntil(this._destroyObj$)
     ).subscribe({
-      next: (value: Reason[]) => this.reasons = value
+      next: (reasons: Reason[]) => this.reasons = reasons
     })
 
 

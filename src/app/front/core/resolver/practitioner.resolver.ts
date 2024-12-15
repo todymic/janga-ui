@@ -18,7 +18,5 @@ export const practitionerResolver: ResolveFn<Practitioner | null> = (route, stat
 
   }
 
-
-
   return currentId ? practitionerService.getOne(currentId) : null;
 };

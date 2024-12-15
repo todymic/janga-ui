@@ -1,9 +1,7 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {StepService} from "@core/services/step.service";
 import {AbstractControl} from "@angular/forms";
-import {AppointmentService} from "@core/services/appointment.service";
 import {Step} from "@features/booking/interface/step.booking";
-import {Appointment} from "@core/models/appointment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,24 +10,15 @@ export class BookingFormService {
 
   private _stepService = inject(StepService);
 
-  private _appointmentService = inject(AppointmentService);
-
   private _isValidForm = signal<boolean>(false);
 
   isValidStep = computed(()=> this._isValidForm());
-
-  private _appointment!: Appointment | null;
-
-  constructor() {
-    this._appointment = this._appointmentService.currentAppointment;
-  }
 
   get currentStep() {
     return this._stepService.currentStep;
   }
 
   initForm(steps: Step[]) {
-
     this._stepService.steps = steps;
   }
 
