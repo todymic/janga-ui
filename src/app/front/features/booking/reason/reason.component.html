@@ -1,1 +1,14 @@
-<p>reason works!</p>
+@if (practitioner) {
+  <div class="wrapper-form">
+    <form [formGroup]="formGroup" >
+      <mat-selection-list formControlName="reason" [multiple]="false">
+        @for (reason of reasons; track reason) {
+          <mat-list-option [value]="reason.id" class="d-flex my-3" color="primary">
+            <div class="option-item"><strong>{{ reason.type }}</strong></div>
+          </mat-list-option>
+        }
+      </mat-selection-list>
+    </form>
+  </div>
+}
+

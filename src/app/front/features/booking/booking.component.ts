@@ -109,12 +109,7 @@ export class BookingComponent implements OnInit {
 
       this.stepComponent = computed(() => this.steps[this.bookingFormService.currentStep].component);
 
-
     }
-
-
-
-
   }
 
 }

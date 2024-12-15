@@ -57,33 +57,36 @@ export class OfficeComponent extends BaseComponent<OfficeBooking> implements OnI
 
   ngOnInit(): void {
 
+    let initValue: Office[] | undefined = [];
+    // //Init value
+    if (this.appointment?.officeId) {
+       const office = this.practitioner.offices.find(office => office.id == this.appointment?.officeId);
+
+     if(office) {
+       initValue = [office];
+     }
+
+    }
+
     this.formGroup = this.formBuilder.group<Control<OfficeBooking>>({
-        office: this.formBuilder.control<Office | null>(null, [Validators.required])
+        office: this.formBuilder.control(initValue, [Validators.required])
       })
 
-    const appointment = this.appointmentService.currentAppointment;
+    this.bookingFormService.validCurrentStep(this.formGroup.controls.office, 'offices');
 
     // save data
     this.formGroup.controls.office.valueChanges.subscribe({
       next: value => {
-        if (appointment) {
-          appointment.officeId = value[0]?.id;
-          this.appointmentService.updateAppointment = appointment;
+        if (this.appointment) {
+          this.appointment.officeId = value[0]?.id;
+          this.appointmentService.updateAppointment = this.appointment;
         }
 
         this.bookingFormService.validCurrentStep(this.formGroup.controls.office, 'offices')
       }
     });
 
-    // //Init value
-    if (appointment?.officeId) {
 
-      const office = this.practitioner.offices.find(office => office.id == appointment?.officeId);
-
-      this.formGroup.controls.office.patchValue([office]);
-
-      this.bookingFormService.validCurrentStep(this.formGroup.controls.office, 'offices');
-    }
 
   }
 }
